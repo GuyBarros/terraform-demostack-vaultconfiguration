@@ -6,12 +6,12 @@ resource "vault_pki_secret_backend" "pki" {
 
 
 resource "vault_pki_secret_backend_root_cert" "pki" {
-  depends_on = [ "vault_pki_secret_backend.pki" ]
+  depends_on = [ vault_pki_secret_backend.pki ]
 
-  backend = "${vault_pki_secret_backend.pki.path}"
+  backend = vault_pki_secret_backend.pki.path
 
   type = "internal"
-  common_name = "service.consul"
+  common_name = "*.service.consul"
   ttl = "315360000"
   format = "pem"
   private_key_format = "der"
@@ -23,6 +23,11 @@ resource "vault_pki_secret_backend_root_cert" "pki" {
 }
 
 resource "vault_pki_secret_backend_role" "consul-service" {
-  backend = "${vault_pki_secret_backend.pki.path}"
+  backend = vault_pki_secret_backend.pki.path
   name    = "consul-service"
+  allow_localhost = true
+  allow_any_name = true
+  allow_ip_sans = true
+  ou = ["Solution Egineering"]
+  organization = ["Hashicorp"]
 }
