@@ -7,5 +7,6 @@ provider "vault" {
   # VAULT_ADDR
   # VAULT_TOKEN
   # VAULT_NAMESPACE
+  # address = "http://${var.vault_addr}:8200"
 
 }
